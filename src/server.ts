@@ -1,6 +1,15 @@
 import { app } from "./app";
+import { env } from "./env";
 
-app.listen({
-  port: 3333,
-  host: "0.0.0.0",
-});
+app
+  .listen({
+    port: env.PORT,
+    host: "0.0.0.0",
+  })
+  .then(() => {
+    console.table({
+      port: env.PORT,
+      host: "http://localhost:3333",
+      env: `Running on ${env.NODE_ENV}`,
+    });
+  });
