@@ -1,0 +1,27 @@
+services:
+
+  # If you want to run the api locally
+  # open-gym-api:
+  #   build: .
+  #   ports:
+  #     - "3333:3333"
+  #   environment:
+  #     - DATABASE_URL=${DATABASE_URL}
+  #   depends_on:
+  #     - open-gym-db
+
+  open-gym-db:
+    image: bitnami/postgresql:16
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRESQL_USERNAME=${DB_USER}
+      - POSTGRESQL_PASSWORD=${DB_PASSWORD}
+      - POSTGRESQL_DATABASE=${DB_NAME}
+      - POSTGRESQL_POSTGRES_PASSWORD=${DB_PASSWORD_POSTGRES}
+    volumes:
+      - opengym_data:/bitnami/postgresql
+
+volumes:
+  opengym_data:
+    driver: local
