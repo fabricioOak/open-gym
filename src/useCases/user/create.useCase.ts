@@ -1,17 +1,24 @@
 import { type IUserRepository } from "@/repositories/user.repository";
 import { ApiError } from "@/utils/apiError";
+import { type User } from "@prisma/client";
 import * as argon from "argon2";
 
-interface CreateUserUseCaseRequest {
+export interface CreateUserUseCaseRequest {
   legalName: string;
   socialName?: string;
   email: string;
   password: string;
 }
 
+export type CreateUserUseCaseResponse = {
+  user: User;
+};
+
 export class CreateUserUseCase {
   constructor(private userRepository: IUserRepository) {}
-  async execute(data: CreateUserUseCaseRequest) {
+  async execute(
+    data: CreateUserUseCaseRequest
+  ): Promise<CreateUserUseCaseResponse> {
     const { legalName, socialName, email, password } = data;
 
     const password_hash = await argon.hash(password);
@@ -22,11 +29,13 @@ export class CreateUserUseCase {
       throw new ApiError(409, "User already exists");
     }
 
-    await this.userRepository.createUser({
+    const user = await this.userRepository.createUser({
       legalName,
       socialName,
       email,
       password_hash,
     });
+
+    return { user };
   }
 }
