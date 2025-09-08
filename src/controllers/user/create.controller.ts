@@ -1,5 +1,4 @@
-import { UserRepository } from "@/repositories/user.repository";
-import { CreateUserUseCase } from "@/useCases/user/create.useCase";
+import { makeCreateUserUseCase } from "@/factories/user/make-create-useCase";
 import { ApiError } from "@/utils/apiError";
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { z } from "zod";
@@ -17,8 +16,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
   );
 
   try {
-    const userRepository = new UserRepository();
-    const createUserUseCase = new CreateUserUseCase(userRepository);
+    const createUserUseCase = makeCreateUserUseCase();
 
     await createUserUseCase.execute({
       legalName,
@@ -33,4 +31,9 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
 
     throw error;
   }
+
+  return reply.status(201).send({
+    seccess: true,
+    message: "User created successfully",
+  });
 }
