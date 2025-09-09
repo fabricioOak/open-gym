@@ -1,12 +1,13 @@
 import { type User, type Prisma } from "@prisma/client";
 import { type IUserRepository } from "@/repositories/user.repository";
+import { randomUUID } from "node:crypto";
 
 class UserRepositoryMock implements IUserRepository {
   public users: User[] = [];
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
+  async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
-      id: "user-1",
+      id: randomUUID(),
       legalName: data.legalName,
       socialName: data.socialName ?? null,
       email: data.email,
@@ -19,14 +20,15 @@ class UserRepositoryMock implements IUserRepository {
     return user;
   }
 
-  async checkUserExists(email: string): Promise<User | null> {
+  async findById(id: string): Promise<User | null> {
+    const user = this.users.find((user) => user.id === id);
+
+    return user ?? null;
+  }
+  async findByEmail(email: string): Promise<User | null> {
     const user = this.users.find((user) => user.email === email);
 
-    if (!user) {
-      return null;
-    }
-
-    return user;
+    return user ?? null;
   }
 }
 

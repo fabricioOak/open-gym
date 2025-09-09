@@ -14,7 +14,7 @@ describe("User login", () => {
   });
 
   it("should be able to login", async () => {
-    const newUser = await userRepository.createUser({
+    const newUser = await userRepository.create({
       legalName: "John Doe",
       socialName: "Anthony Doe",
       email: "johndoe@example.com",
@@ -30,7 +30,7 @@ describe("User login", () => {
   });
 
   it("should not be able to login with wrong credentials", async () => {
-    expect(() =>
+    await expect(() =>
       sut.execute({
         email: "johndoe@example.com",
         password: "123456",

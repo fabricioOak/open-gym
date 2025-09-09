@@ -1,5 +1,5 @@
 import { UserRepository } from "@/repositories/user.repository";
-import { CreateUserUseCase } from "@/useCases/user/create.useCase";
+import { CreateUserUseCase } from "@/useCases/user/createUser.useCase";
 
 export function makeCreateUserUseCase() {
   const userRepository = new UserRepository();

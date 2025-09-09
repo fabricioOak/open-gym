@@ -21,7 +21,7 @@ export class LoginUseCase {
   async execute(data: LoginUseCaseRequest): Promise<LoginUseCaseResponse> {
     const { email, password } = data;
 
-    const user = await this.userRepository.checkUserExists(email);
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       throw new ApiError(401, "Email or password incorrect");
