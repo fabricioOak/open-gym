@@ -1,4 +1,4 @@
-import { makeLoginUseCase } from "@/factories/auth/make-auth-useCase";
+import { makeLoginUseCase } from "@/factories/auth/make-login-useCase";
 import { ApiError } from "@/utils/apiError";
 import type { FastifyRequest, FastifyReply } from "fastify";
 import { z } from "zod";
