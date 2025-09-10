@@ -33,7 +33,7 @@ export async function createUser(request: FastifyRequest, reply: FastifyReply) {
   }
 
   return reply.status(201).send({
-    seccess: true,
+    success: true,
     message: "User created successfully",
   });
 }
